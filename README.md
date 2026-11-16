@@ -1,10 +1,11 @@
 # ElySA Launcher
 
-Вариант SA Launcher с входом через **Ely.by** вместо Microsoft. Проект из двух частей:
+Вариант SA Launcher 1.5.0 с входом через **Ely.by** вместо Microsoft. Проект из двух частей:
 
 | Папка | Что это |
 |---|---|
 | `site/index.html` | Сайт ElySA Launcher (замена вашего `index.html`) |
+| `worker.js`, `wrangler.jsonc` | Бэкенд сайта на Cloudflare Workers: `/download/<os>`, `/api/launcher`, `/api/search`, `/api/versions` |
 | `launcher/` | Лаунчер (Electron): сборки, каталог Modrinth/CurseForge, 20 языков, темы, установщик |
 
 ## Как работает вход через Ely.by
@@ -15,7 +16,10 @@
 
 ⚠️ Аккаунты Ely.by не пройдут на серверы в online-режиме, которые проверяют аккаунты Mojang. Это ограничение Ely.by, а не лаунчера. В одиночной игре и на серверах с Ely.by всё работает.
 
-## Что изменено относительно SA Launcher 1.4.0
+## Версия 1.1.0 (основана на SA Launcher 1.5.0)
+Добавлено «Установить в лаунчер»: ссылки `elysalauncher://install?src=modrinth|curseforge&project=<id>&version=<id>&type=mod|resourcepack|shader|modpack`. Кнопка «Открыть в ElySA Launcher» есть в каталоге на сайте. Схема `elysalauncher://` (не `salauncher://`), поэтому оба лаунчера можно держать на одном компьютере. Протокол регистрируется установщиком; ссылки проверяются (формат ID, тип), перед установкой лаунчер показывает подтверждение.
+
+## Что изменено относительно SA Launcher
 - `core/auth.js` — новый: вход, проверка и обновление токена Ely.by, выход.
 - `core/authlib.js` — новый: загрузка authlib-injector.
 - `core/mc.js` — запуск с `-javaagent`, `user_type=mojang`, `launcher_name=ElySA-Launcher`.
@@ -24,7 +28,7 @@
 - Интерфейс: форма входа Ely.by (email/ник, пароль, 2FA), головы игроков из скинов Ely.by, строки на 7 языках (остальные — на английском).
 - Название везде «ElySA Launcher», ID приложения `app.elysa-launcher`, установщики `ElySA-Launcher-Setup-<версия>.exe` и т. д. Данные лаунчера лежат в отдельной папке и не смешиваются с SA Launcher.
 - Лицензии установщика (en/ru/pl/uk) обновлены.
-- Версия сброшена на 1.0.0.
+- Версия ElySA: 1.1.0.
 
 ## Сайт
 - Страница «Войти» теперь объясняет, что вход делается в лаунчере, и даёт ссылки на регистрацию Ely.by. Вход через Microsoft и страница «аккаунт» убраны.
@@ -34,8 +38,8 @@
 
 ## Сборка
 1. В `launcher/package.json` поставьте свой адрес в `"saSite"` (сейчас `https://elysa-launcher.pages.dev`).
-2. Windows: `cd launcher && npm install && npm run dist` → `launcher/dist/ElySA-Launcher-Setup-1.0.0.exe`.
-3. Без Windows: загрузите проект на GitHub, в Variables задайте `SA_SITE`, затем `git tag v1.0.0 && git push --tags` — `.exe`, `.dmg`, `.AppImage` появятся в Releases (`.github/workflows/build.yml`).
+2. Windows: `cd launcher && npm install && npm run dist` → `launcher/dist/ElySA-Launcher-Setup-1.1.0.exe`.
+3. Без Windows: загрузите проект на GitHub, в Variables задайте `SA_SITE`, затем `git tag v1.1.0 && git push --tags` — `.exe`, `.dmg`, `.AppImage` появятся в Releases (`.github/workflows/build.yml`).
 4. Проверка синтаксиса и переводов: `cd launcher && npm run check`.
 
 ## Что проверено, а что нет
